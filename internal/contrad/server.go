@@ -3,38 +3,41 @@ package contrad
 import (
 	"context"
 	"errors"
-	"fmt"
+	"github.com/KazakovDenis/contra/internal/contrad/routes"
 	"log"
 	"net"
 	"net/http"
 	"os"
-
-	v1 "github.com/KazakovDenis/contra/internal/contrad/v1"
 )
 
-func Run() {
+func newMux() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", Index)
-	mux.HandleFunc("/api/v1/", v1.ApiV1Router)
-	port := os.Getenv("PORT")
-	if len(port) == 0 {
-		port = "8080"
-	}
+	mux.HandleFunc("/", routes.Index)
+	mux.HandleFunc("/provider", routes.Provider)
+	mux.HandleFunc("/schema", routes.Schema)
+	return mux
+}
 
-	bind := fmt.Sprintf(":%s", port)
-	log.Printf("Start serving on %s", bind)
-
+func newServer(cfg *Config) (*http.Server, *context.Context) {
 	ctx := context.Background()
 	srv := &http.Server{
-		Addr:    bind,
-		Handler: mux,
+		Addr:    ":" + cfg.serverPort,
+		Handler: newMux(),
 		BaseContext: func(l net.Listener) context.Context {
-			ctx = context.WithValue(ctx, v1.KeyServerAddr, l.Addr().String())
+			ctx = context.WithValue(ctx, KeyServerAddr, l.Addr().String())
 			return ctx
 		},
 	}
+	return srv, &ctx
+}
+
+func Run() {
+	config := NewConfig()
+	log.Printf("Contrad is running on http://0.0.0.0:%s", config.serverPort)
+
+	srv, ctx := newServer(config)
 	err := srv.ListenAndServe()
-	<-ctx.Done()
+	<-(*ctx).Done()
 
 	if errors.Is(err, http.ErrServerClosed) {
 		log.Printf("%s\n", err)
