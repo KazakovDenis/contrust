@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 	"log"
 	"net/http"
 )
@@ -10,9 +11,9 @@ func Schema(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case http.MethodGet:
-		err = getSchema(&w)
+		err = getSchema(&w, r)
 	case http.MethodPost:
-		err = addSchema(&w)
+		err = addSchema(&w, r)
 	default:
 		err = notAllowed(&w)
 	}
@@ -22,10 +23,10 @@ func Schema(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func addSchema(w *http.ResponseWriter) error {
-	return nil
+func addSchema(w *http.ResponseWriter, r *http.Request) error {
+	return scenario.NewAddSchemaScenario().Execute(w, r)
 }
 
-func getSchema(w *http.ResponseWriter) error {
-	return nil
+func getSchema(w *http.ResponseWriter, r *http.Request) error {
+	return scenario.NewGetSchemaScenario().Execute(w, r)
 }
