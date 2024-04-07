@@ -1,15 +1,23 @@
 package scenario
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/KazakovDenis/contra/internal/contrad/repo"
+)
 
 type AddProviderScenario struct {
 	Scenario
+	providerName string
 }
 
 func (sc *AddProviderScenario) Execute(wr *http.ResponseWriter, r *http.Request) error {
-	return nil
+	ctx := r.Context()
+	return repo.NewProviderRepo(&ctx).Add(sc.providerName)
 }
 
-func NewAddProviderScenario() *AddProviderScenario {
-	return &AddProviderScenario{}
+func NewAddProviderScenario(name string) *AddProviderScenario {
+	return &AddProviderScenario{
+		providerName: name,
+	}
 }

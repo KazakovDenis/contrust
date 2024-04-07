@@ -1,9 +1,10 @@
 package routes
 
 import (
-	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 	"log"
 	"net/http"
+
+	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
 
 func Schema(w http.ResponseWriter, r *http.Request) {

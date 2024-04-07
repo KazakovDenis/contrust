@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -8,7 +9,20 @@ import (
 )
 
 func addProvider(w *http.ResponseWriter, r *http.Request) error {
-	return scenario.NewAddProviderScenario().Execute(w, r)
+
+	var buffer []byte
+	_, err := r.Body.Read(buffer)
+	if err == nil {
+		return err
+	}
+
+	var data map[string]string
+	err = json.Unmarshal(buffer, &data)
+	if err != nil {
+		return err
+	}
+
+	return scenario.NewAddProviderScenario(data["providerName"]).Execute(w, r)
 }
 
 func Provider(w http.ResponseWriter, r *http.Request) {

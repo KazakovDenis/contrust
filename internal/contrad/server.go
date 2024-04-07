@@ -3,11 +3,14 @@ package contrad
 import (
 	"context"
 	"errors"
-	"github.com/KazakovDenis/contra/internal/contrad/routes"
 	"log"
 	"net"
 	"net/http"
 	"os"
+
+	"github.com/KazakovDenis/contra/internal/contrad/contants"
+	"github.com/KazakovDenis/contra/internal/contrad/database"
+	"github.com/KazakovDenis/contra/internal/contrad/routes"
 )
 
 func newMux() *http.ServeMux {
@@ -18,13 +21,16 @@ func newMux() *http.ServeMux {
 	return mux
 }
 
-func newServer(cfg *Config) (*http.Server, *context.Context) {
+func newServer(cfg *AppConfig) (*http.Server, *context.Context) {
 	ctx := context.Background()
+	db := database.Connect(ctx, Config.DatabaseURI, Config.DatabaseName)
+
 	srv := &http.Server{
-		Addr:    ":" + cfg.serverPort,
+		Addr:    ":" + cfg.ServerPort,
 		Handler: newMux(),
 		BaseContext: func(l net.Listener) context.Context {
-			ctx = context.WithValue(ctx, KeyServerAddr, l.Addr().String())
+			ctx = context.WithValue(ctx, contants.KeyServerAddr, l.Addr().String())
+			ctx = context.WithValue(ctx, contants.Database, db)
 			return ctx
 		},
 	}
@@ -32,10 +38,9 @@ func newServer(cfg *Config) (*http.Server, *context.Context) {
 }
 
 func Run() {
-	config := NewConfig()
-	log.Printf("Contrad is running on http://0.0.0.0:%s", config.serverPort)
+	log.Printf("Contrad is running on http://0.0.0.0:%s", Config.ServerPort)
 
-	srv, ctx := newServer(config)
+	srv, ctx := newServer(Config)
 	err := srv.ListenAndServe()
 	<-(*ctx).Done()
 

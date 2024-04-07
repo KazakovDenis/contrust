@@ -25,6 +25,8 @@ pkg/mod/
 
 # Env
 .env*
+.local/*
+!.local/.gitkeep
 
 # IDE
 .idea/

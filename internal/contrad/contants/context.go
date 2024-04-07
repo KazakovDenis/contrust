@@ -1,5 +1,6 @@
-package contrad
+package contants
 
 const (
 	KeyServerAddr int8 = iota
+	Database
 )
