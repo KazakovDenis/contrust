@@ -1,0 +1,15 @@
+[
+    {
+        "createIndexes": "providers",
+        "indexes": [
+            {
+                "key": {
+                    "name": 1
+                },
+                "name": "ux_name_asc",
+                "unique": true,
+                "sparse": true
+            }
+        ]
+    }
+]

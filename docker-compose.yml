@@ -6,6 +6,19 @@ services:
     env_file:
       - .env
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT}:27017"
     volumes:
-      - .local/mongodb:/bitnami/mongodb
+      - ./.local/mongodb:/bitnami/mongodb
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+
+  migrate:
+    image: migrate/migrate:4
+    depends_on:
+      - mongo
+    command:
+      - "-path=/migrations/"
+      - "-database=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_USERNAME}@mongo:${MONGO_PORT}/${MONGO_INITDB_DATABASE}"
+      - "up"
+    volumes:
+      - ./internal/contrad/database/migrations:/migrations

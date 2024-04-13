@@ -9,7 +9,6 @@ import (
 )
 
 func addProvider(w *http.ResponseWriter, r *http.Request) error {
-
 	var buffer []byte
 	_, err := r.Body.Read(buffer)
 	if err == nil {
@@ -22,7 +21,7 @@ func addProvider(w *http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	return scenario.NewAddProviderScenario(data["providerName"]).Execute(w, r)
+	return scenario.NewAddProviderScenario(data["name"]).Execute(w, r)
 }
 
 func Provider(w http.ResponseWriter, r *http.Request) {
