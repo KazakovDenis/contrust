@@ -21,9 +21,9 @@ func newMux() *http.ServeMux {
 	return mux
 }
 
-func newServer(cfg *AppConfig) (*http.Server, *context.Context) {
+func newServer(cfg *AppConfig) (*http.Server, *context.Context, func()) {
 	ctx := context.Background()
-	db := database.Connect(ctx, Config.DatabaseURI, Config.DatabaseName)
+	db, disconnect := database.Connect(ctx, Config.DatabaseURI, Config.DatabaseName)
 
 	srv := &http.Server{
 		Addr:    ":" + cfg.ServerPort,
@@ -34,13 +34,15 @@ func newServer(cfg *AppConfig) (*http.Server, *context.Context) {
 			return ctx
 		},
 	}
-	return srv, &ctx
+	return srv, &ctx, disconnect
 }
 
 func Run() {
 	log.Printf("Contrad is running on http://0.0.0.0:%s", Config.ServerPort)
 
-	srv, ctx := newServer(Config)
+	srv, ctx, shutdown := newServer(Config)
+	defer shutdown()
+
 	err := srv.ListenAndServe()
 	<-(*ctx).Done()
 

@@ -14,8 +14,16 @@ type ProviderRepo struct {
 	Repo
 }
 
+func NewProviderRepo(ctx *context.Context) *ProviderRepo {
+	return &ProviderRepo{
+		Repo{
+			ctx: ctx,
+		},
+	}
+}
+
 func (repo *ProviderRepo) Add(name string) error {
-	db := (*repo.ctx).Value(contants.Database).(mongo.Database)
+	db := (*repo.ctx).Value(contants.Database).(*mongo.Database)
 	coll := db.Collection(database.CollProviders)
 	result, err := coll.InsertOne(*repo.ctx, struct{ name string }{name: name})
 	if err != nil {
@@ -23,12 +31,4 @@ func (repo *ProviderRepo) Add(name string) error {
 	}
 	log.Printf("Added new provider: %s", result.InsertedID)
 	return nil
-}
-
-func NewProviderRepo(ctx *context.Context) *ProviderRepo {
-	return &ProviderRepo{
-		Repo{
-			ctx: ctx,
-		},
-	}
 }

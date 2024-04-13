@@ -9,19 +9,12 @@ import (
 )
 
 func addProvider(w *http.ResponseWriter, r *http.Request) error {
-	var buffer []byte
-	_, err := r.Body.Read(buffer)
-	if err == nil {
-		return err
-	}
-
-	var data map[string]string
-	err = json.Unmarshal(buffer, &data)
+	var jsonData map[string]string
+	err := json.NewDecoder(r.Body).Decode(&jsonData)
 	if err != nil {
 		return err
 	}
-
-	return scenario.NewAddProviderScenario(data["name"]).Execute(w, r)
+	return scenario.NewAddProviderScenario(jsonData["name"]).Execute(w, r)
 }
 
 func Provider(w http.ResponseWriter, r *http.Request) {

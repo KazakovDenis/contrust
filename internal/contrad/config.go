@@ -28,7 +28,7 @@ func NewConfig() *AppConfig {
 	return &AppConfig{
 		ServerPort:   getEnv("SERVER_PORT", "8080"),
 		DatabaseURI:  buildDbURI(),
-		DatabaseName: getEnv("MONGO_INITDB_DATABASE", "contra"),
+		DatabaseName: getEnv("MONGO_DATABASE", "contra"),
 	}
 }
 
@@ -45,5 +45,5 @@ func buildDbURI() string {
 	password := getEnv("MONGO_INITDB_ROOT_PASSWORD", "contra")
 	host := getEnv("MONGO_HOST", "localhost")
 	port := getEnv("MONGO_PORT", "27017")
-	return fmt.Sprintf(`mongodb+srv://%s:%s@%s:%s/?authSource=admin`, user, password, host, port)
+	return fmt.Sprintf(`mongodb://%s:%s@%s:%s/?authSource=admin`, user, password, host, port)
 }
