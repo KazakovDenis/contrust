@@ -1,49 +1,50 @@
 package routes
 
 import (
-	"encoding/json"
 	"errors"
 	"net/http"
 
 	"go.mongodb.org/mongo-driver/mongo"
 
+	http2 "github.com/KazakovDenis/contra/internal/contrad/http"
 	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
 
-func addProvider(w *http.ResponseWriter, r *http.Request) {
-	var jsonData map[string]string
-	err := json.NewDecoder(r.Body).Decode(&jsonData)
+func addProvider(httpCtx *http2.HttpContext) {
+	jsonData, err := httpCtx.Json()
 	if err != nil {
-		MakeResponse(w, http.StatusBadRequest, "")
+		httpCtx.MakeResponse(http.StatusBadRequest, "Invalid data")
 		return
 	}
 
 	var providerName string
-	if providerName = jsonData["name"]; providerName == "" {
-		MakeResponse(w, http.StatusBadRequest, "Payload must contain \"name\"")
+	if providerName = jsonData["name"].(string); providerName == "" {
+		httpCtx.MakeResponse(http.StatusBadRequest, "Payload must contain \"name\"")
 		return
 	}
 
-	result, err := scenario.NewAddProviderScenario(providerName).Execute(w, r)
+	result, err := scenario.NewAddProviderScenario(providerName).Execute(httpCtx)
 	if err == nil {
-		MakeResponse(w, http.StatusOK, result)
+		httpCtx.MakeResponse(http.StatusOK, result)
 		return
 	}
 
 	var writeException mongo.WriteException
 	switch {
 	case errors.As(err, &writeException):
-		MakeResponse(w, http.StatusConflict, "Already exists")
+		httpCtx.MakeResponse(http.StatusConflict, "Already exists")
 	default:
-		MakeResponse(w, http.StatusInternalServerError, "")
+		httpCtx.MakeResponse(http.StatusInternalServerError, "")
 	}
 }
 
 func Provider(w http.ResponseWriter, r *http.Request) {
+	httpCtx := http2.NewHttpContext(&w, r)
+
 	switch r.Method {
 	case http.MethodPost:
-		addProvider(&w, r)
+		addProvider(httpCtx)
 	default:
-		NotAllowed(&w)
+		http2.NotAllowed(&w)
 	}
 }

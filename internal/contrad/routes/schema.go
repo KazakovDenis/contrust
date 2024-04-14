@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/KazakovDenis/contra/internal/common/log"
+	http2 "github.com/KazakovDenis/contra/internal/contrad/http"
 	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
 
@@ -14,7 +15,7 @@ func Schema(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		addSchema(&w, r)
 	default:
-		NotAllowed(&w)
+		http2.NotAllowed(&w)
 	}
 }
 
