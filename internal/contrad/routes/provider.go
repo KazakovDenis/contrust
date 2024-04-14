@@ -2,32 +2,48 @@ package routes
 
 import (
 	"encoding/json"
-	"log"
+	"errors"
 	"net/http"
+
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
 
-func addProvider(w *http.ResponseWriter, r *http.Request) error {
+func addProvider(w *http.ResponseWriter, r *http.Request) {
 	var jsonData map[string]string
 	err := json.NewDecoder(r.Body).Decode(&jsonData)
 	if err != nil {
-		return err
+		MakeResponse(w, http.StatusBadRequest, "")
+		return
 	}
-	return scenario.NewAddProviderScenario(jsonData["name"]).Execute(w, r)
+
+	var providerName string
+	if providerName = jsonData["name"]; providerName == "" {
+		MakeResponse(w, http.StatusBadRequest, "Payload must contain \"name\"")
+		return
+	}
+
+	result, err := scenario.NewAddProviderScenario(providerName).Execute(w, r)
+	if err == nil {
+		MakeResponse(w, http.StatusOK, result)
+		return
+	}
+
+	var writeException mongo.WriteException
+	switch {
+	case errors.As(err, &writeException):
+		MakeResponse(w, http.StatusConflict, "Already exists")
+	default:
+		MakeResponse(w, http.StatusInternalServerError, "")
+	}
 }
 
 func Provider(w http.ResponseWriter, r *http.Request) {
-	var err error
-
 	switch r.Method {
 	case http.MethodPost:
-		err = addProvider(&w, r)
+		addProvider(&w, r)
 	default:
-		err = notAllowed(&w)
-	}
-
-	if err != nil {
-		log.Fatal(err)
+		NotAllowed(&w)
 	}
 }

@@ -1,7 +1,7 @@
 install:
 	go mod download
 
-precommit:
+fmt:
 	go fmt ./...
 
 run:
