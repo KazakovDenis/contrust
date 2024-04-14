@@ -11,9 +11,10 @@ func Connect(ctx context.Context, uri string, name string) (*mongo.Database, fun
 	if err != nil {
 		panic(err)
 	}
-	return client.Database(name), func() {
+	disconnect := func() {
 		if err := client.Disconnect(ctx); err != nil {
 			panic(err)
 		}
 	}
+	return client.Database(name), disconnect
 }

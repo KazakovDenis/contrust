@@ -3,11 +3,11 @@ package contrad
 import (
 	"context"
 	"errors"
-	"log"
 	"net"
 	"net/http"
 	"os"
 
+	"github.com/KazakovDenis/contra/internal/common/log"
 	"github.com/KazakovDenis/contra/internal/contrad/contants"
 	"github.com/KazakovDenis/contra/internal/contrad/database"
 	"github.com/KazakovDenis/contra/internal/contrad/routes"
@@ -22,6 +22,8 @@ func newMux() *http.ServeMux {
 }
 
 func newServer(cfg *AppConfig) (*http.Server, *context.Context, func()) {
+	log.InitLogger(Config.LogLevel, Config.LogFormat)
+
 	ctx := context.Background()
 	db, disconnect := database.Connect(ctx, Config.DatabaseURI, Config.DatabaseName)
 
@@ -38,7 +40,7 @@ func newServer(cfg *AppConfig) (*http.Server, *context.Context, func()) {
 }
 
 func Run() {
-	log.Printf("Contrad is running on http://0.0.0.0:%s", Config.ServerPort)
+	log.Info("Contrad is running on http://0.0.0.0:%s", Config.ServerPort)
 
 	srv, ctx, shutdown := newServer(Config)
 	defer shutdown()
@@ -47,9 +49,9 @@ func Run() {
 	<-(*ctx).Done()
 
 	if errors.Is(err, http.ErrServerClosed) {
-		log.Printf("%s\n", err)
+		log.Error("%s\n", err)
 	} else if err != nil {
-		log.Printf("Error while starting the server: %s\n", err)
+		log.Error("Error while starting the server: %s\n", err)
 		os.Exit(1)
 	}
 }

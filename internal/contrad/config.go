@@ -12,6 +12,8 @@ type AppConfig struct {
 	ServerPort   string
 	DatabaseURI  string
 	DatabaseName string
+	LogLevel     string
+	LogFormat    string
 }
 
 var Config *AppConfig
@@ -23,12 +25,14 @@ func init() {
 func NewConfig() *AppConfig {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Print("Error loading .env file")
 	}
 	return &AppConfig{
 		ServerPort:   getEnv("SERVER_PORT", "8080"),
 		DatabaseURI:  buildDbURI(),
 		DatabaseName: getEnv("MONGO_DATABASE", "contra"),
+		LogLevel:     getEnv("LOG_LEVEL", "INFO"),
+		LogFormat:    getEnv("LOG_FORMAT", "text"),
 	}
 }
 
