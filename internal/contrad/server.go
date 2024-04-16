@@ -16,8 +16,8 @@ import (
 func newMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", routes.Index)
-	mux.HandleFunc("/provider", routes.Provider)
-	mux.HandleFunc("/schema", routes.Schema)
+	mux.HandleFunc("/provider", routes.ProviderRouter)
+	mux.HandleFunc("/schema", routes.SchemaRouter)
 	return mux
 }
 

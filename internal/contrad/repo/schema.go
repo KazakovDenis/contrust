@@ -8,33 +8,32 @@ import (
 
 	"github.com/KazakovDenis/contra/internal/common/log"
 	"github.com/KazakovDenis/contra/internal/contrad/contants"
-	"github.com/KazakovDenis/contra/internal/contrad/database"
 )
 
-type ProviderRepo struct {
+type SchemaRepo struct {
 	Repo
 }
 
-type ProviderDoc struct {
-	Name string `json:"name"`
+type SchemaDoc struct {
+	Contract map[string]interface{} `json:"contract"`
 }
 
-func NewProviderRepo(ctx *context.Context) *ProviderRepo {
-	return &ProviderRepo{
+func NewSchemaRepo(ctx *context.Context) *SchemaRepo {
+	return &SchemaRepo{
 		Repo{
 			ctx: ctx,
 		},
 	}
 }
 
-func (repo *ProviderRepo) Add(name string) (string, error) {
+func (repo *SchemaRepo) Add(collection string, document map[string]interface{}) (string, error) {
 	db := (*repo.ctx).Value(contants.Database).(*mongo.Database)
-	coll := db.Collection(database.CollProviders)
-	result, err := coll.InsertOne(*repo.ctx, ProviderDoc{Name: name})
+	coll := db.Collection(collection)
+	result, err := coll.InsertOne(*repo.ctx, SchemaDoc{Contract: document})
 	if err != nil {
 		return "ERROR", err
 	}
 	objectId := result.InsertedID.(primitive.ObjectID).Hex()
-	log.Info("New provider has been added: %s[%s]", name, objectId)
+	log.Info("New contract has been added: %s[%s]", collection, objectId)
 	return objectId, nil
 }

@@ -10,6 +10,17 @@ import (
 	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
 
+func ProviderRouter(w http.ResponseWriter, r *http.Request) {
+	httpCtx := request.NewHttpContext(&w, r)
+
+	switch r.Method {
+	case http.MethodPost:
+		addProvider(httpCtx)
+	default:
+		httpCtx.NotAllowed()
+	}
+}
+
 func addProvider(httpCtx *request.HttpContext) {
 	jsonData, err := httpCtx.Json()
 	if err != nil {
@@ -35,16 +46,5 @@ func addProvider(httpCtx *request.HttpContext) {
 		httpCtx.MakeResponse(http.StatusConflict, "Already exists")
 	default:
 		httpCtx.MakeResponse(http.StatusInternalServerError, "")
-	}
-}
-
-func Provider(w http.ResponseWriter, r *http.Request) {
-	httpCtx := request.NewHttpContext(&w, r)
-
-	switch r.Method {
-	case http.MethodPost:
-		addProvider(httpCtx)
-	default:
-		httpCtx.NotAllowed()
 	}
 }
