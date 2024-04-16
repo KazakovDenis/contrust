@@ -6,11 +6,11 @@ import (
 
 	"go.mongodb.org/mongo-driver/mongo"
 
-	http2 "github.com/KazakovDenis/contra/internal/contrad/http"
+	"github.com/KazakovDenis/contra/internal/contrad/request"
 	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
 
-func addProvider(httpCtx *http2.HttpContext) {
+func addProvider(httpCtx *request.HttpContext) {
 	jsonData, err := httpCtx.Json()
 	if err != nil {
 		httpCtx.MakeResponse(http.StatusBadRequest, "Invalid data")
@@ -39,12 +39,12 @@ func addProvider(httpCtx *http2.HttpContext) {
 }
 
 func Provider(w http.ResponseWriter, r *http.Request) {
-	httpCtx := http2.NewHttpContext(&w, r)
+	httpCtx := request.NewHttpContext(&w, r)
 
 	switch r.Method {
 	case http.MethodPost:
 		addProvider(httpCtx)
 	default:
-		http2.NotAllowed(&w)
+		httpCtx.NotAllowed()
 	}
 }

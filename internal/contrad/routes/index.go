@@ -1,14 +1,12 @@
 package routes
 
 import (
-	"io"
-	"log"
 	"net/http"
+
+	"github.com/KazakovDenis/contra/internal/contrad/request"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	_, err := io.WriteString(w, "Contrad - the central contracts storage\n")
-	if err != nil {
-		log.Fatal(err)
-	}
+	httpCtx := request.NewHttpContext(&w, r)
+	httpCtx.MakeResponse(http.StatusOK, "<h1>Contrad - the central contracts storage</h1>")
 }

@@ -1,4 +1,4 @@
-package http
+package request
 
 import (
 	"context"
@@ -46,10 +46,6 @@ func (httpCtx *HttpContext) MakeResponse(status int, response string) {
 	}
 }
 
-func NotAllowed(w *http.ResponseWriter) {
-	(*w).WriteHeader(http.StatusMethodNotAllowed)
-	_, err := io.WriteString(*w, "Not allowed")
-	if err != nil {
-		log.Error("%s", err)
-	}
+func (httpCtx *HttpContext) NotAllowed() {
+	httpCtx.MakeResponse(http.StatusMethodNotAllowed, "Not allowed")
 }

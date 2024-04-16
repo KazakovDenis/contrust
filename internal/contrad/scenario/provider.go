@@ -1,8 +1,8 @@
 package scenario
 
 import (
-	"github.com/KazakovDenis/contra/internal/contrad/http"
 	"github.com/KazakovDenis/contra/internal/contrad/repo"
+	"github.com/KazakovDenis/contra/internal/contrad/request"
 )
 
 type AddProviderScenario struct {
@@ -10,7 +10,7 @@ type AddProviderScenario struct {
 	providerName string
 }
 
-func (sc *AddProviderScenario) Execute(httpCtx *http.HttpContext) (string, error) {
+func (sc *AddProviderScenario) Execute(httpCtx *request.HttpContext) (string, error) {
 	ctx := httpCtx.Context()
 	result, err := repo.NewProviderRepo(&ctx).Add(sc.providerName)
 	return result, err

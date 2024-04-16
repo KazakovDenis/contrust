@@ -1,13 +1,13 @@
 package scenario
 
-import "net/http"
+import "github.com/KazakovDenis/contra/internal/contrad/request"
 
 type Executable interface {
-	Execute(wr *http.ResponseWriter, r *http.Request) error
+	Execute(httpCtx *request.HttpContext) error
 }
 
 type Scenario struct{}
 
-func (sc *Scenario) Execute(wr *http.ResponseWriter, r *http.Request) error {
-	return nil
+func (sc *Scenario) Execute(httpCtx *request.HttpContext) (string, error) {
+	return "", nil
 }

@@ -1,13 +1,13 @@
 package scenario
 
-import "net/http"
+import "github.com/KazakovDenis/contra/internal/contrad/request"
 
 type AddSchemaScenario struct {
 	Scenario
 }
 
-func (sc *AddSchemaScenario) Execute(wr *http.ResponseWriter, r *http.Request) error {
-	return nil
+func (sc *AddSchemaScenario) Execute(httpCtx *request.HttpContext) (string, error) {
+	return "", nil
 }
 
 func NewAddSchemaScenario() *AddSchemaScenario {
@@ -18,8 +18,8 @@ type GetSchemaScenario struct {
 	Scenario
 }
 
-func (sc *GetSchemaScenario) Execute(wr *http.ResponseWriter, r *http.Request) error {
-	return nil
+func (sc *GetSchemaScenario) Execute(httpCtx *request.HttpContext) (string, error) {
+	return "", nil
 }
 
 func NewGetSchemaScenario() *GetSchemaScenario {

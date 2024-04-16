@@ -4,30 +4,32 @@ import (
 	"net/http"
 
 	"github.com/KazakovDenis/contra/internal/common/log"
-	http2 "github.com/KazakovDenis/contra/internal/contrad/http"
+	"github.com/KazakovDenis/contra/internal/contrad/request"
 	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
 
 func Schema(w http.ResponseWriter, r *http.Request) {
+	httpCtx := request.NewHttpContext(&w, r)
+
 	switch r.Method {
 	case http.MethodGet:
-		getSchema(&w, r)
+		getSchema(httpCtx)
 	case http.MethodPost:
-		addSchema(&w, r)
+		addSchema(httpCtx)
 	default:
-		http2.NotAllowed(&w)
+		httpCtx.NotAllowed()
 	}
 }
 
-func addSchema(w *http.ResponseWriter, r *http.Request) {
-	err := scenario.NewAddSchemaScenario().Execute(w, r)
+func addSchema(httpCtx *request.HttpContext) {
+	_, err := scenario.NewAddSchemaScenario().Execute(httpCtx)
 	if err != nil {
 		log.Error("%s", err)
 	}
 }
 
-func getSchema(w *http.ResponseWriter, r *http.Request) {
-	err := scenario.NewGetSchemaScenario().Execute(w, r)
+func getSchema(httpCtx *request.HttpContext) {
+	_, err := scenario.NewGetSchemaScenario().Execute(httpCtx)
 	if err != nil {
 		log.Error("%s", err)
 	}
