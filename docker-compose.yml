@@ -21,4 +21,4 @@ services:
       - "-database=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_USERNAME}@mongo:${MONGO_PORT}/${MONGO_DATABASE}?authSource=admin"
       - "up"
     volumes:
-      - ./internal/contrad/database/migrations:/migrations
+      - ./internal/contrad/mongodb/migrations:/migrations

@@ -1,4 +1,4 @@
-package database
+package mongodb
 
 const (
 	CollProviders = "providers"

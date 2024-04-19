@@ -9,7 +9,7 @@ import (
 
 	"github.com/KazakovDenis/contra/internal/common/log"
 	"github.com/KazakovDenis/contra/internal/contrad/contants"
-	"github.com/KazakovDenis/contra/internal/contrad/database"
+	"github.com/KazakovDenis/contra/internal/contrad/mongodb"
 	"github.com/KazakovDenis/contra/internal/contrad/routes"
 )
 
@@ -25,7 +25,7 @@ func newServer(cfg *AppConfig) (*http.Server, *context.Context, func()) {
 	log.InitLogger(Config.LogLevel, Config.LogFormat)
 
 	ctx := context.Background()
-	db, disconnect := database.Connect(ctx, Config.DatabaseURI, Config.DatabaseName)
+	db, disconnect := mongodb.Connect(ctx, Config.DatabaseURI, Config.DatabaseName)
 
 	srv := &http.Server{
 		Addr:    ":" + cfg.ServerPort,
