@@ -6,7 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/KazakovDenis/contra/internal/contrad/contants"
+	"github.com/KazakovDenis/contra/internal/contrad/constants"
 )
 
 type MongoDbRepo struct {
@@ -18,7 +18,7 @@ type Document interface {
 }
 
 func (repo *MongoDbRepo) getCollection() *mongo.Collection {
-	db := (*repo.ctx).Value(contants.Database).(*mongo.Database)
+	db := (*repo.ctx).Value(constants.Database).(*mongo.Database)
 	return db.Collection(repo.collectionName)
 }
 

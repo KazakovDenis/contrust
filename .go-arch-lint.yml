@@ -1,0 +1,65 @@
+version: 3
+workdir: internal
+
+allow:
+  depOnAnyVendor: false
+
+vendors:
+  godotenv:        { in: github.com/joho/godotenv }
+  logrus:          { in: github.com/sirupsen/logrus }
+  mongo:           { in: go.mongodb.org/mongo-driver/mongo }
+  mongo-bson:      { in: go.mongodb.org/mongo-driver/bson/primitive }
+  mongo-options:   { in: go.mongodb.org/mongo-driver/mongo/options }
+
+components:
+  common:          { in: common/* }
+
+  # Contrad
+  contrad:         { in: contrad/ }
+  database:        { in: contrad/mongodb/ }
+  repo:            { in: contrad/repo/ }
+  scenario:        { in: contrad/scenario/ }
+  request:         { in: contrad/request/ }
+  routes:          { in: contrad/routes/ }
+  constants:       { in: contrad/constants/ }
+
+  # Contra
+  contra:          { in: contra/ }
+
+commonComponents:
+  - common
+  - constants
+
+deps:
+  common:
+    canUse:
+      - logrus
+
+  # Contrad
+  contrad:
+    mayDependOn:
+      - database
+      - routes
+    canUse:
+      - godotenv
+  routes:
+    mayDependOn:
+      - request
+      - scenario
+    canUse:
+      - mongo       # todo
+  scenario:
+    mayDependOn:
+      - repo
+      - request
+  repo:
+    mayDependOn:
+      - database
+    canUse:
+      - mongo       # todo
+      - mongo-bson  # todo
+  database:
+    canUse:
+      - mongo
+      - mongo-options
+      - mongo-bson

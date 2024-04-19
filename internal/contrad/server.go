@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/KazakovDenis/contra/internal/common/log"
-	"github.com/KazakovDenis/contra/internal/contrad/contants"
+	"github.com/KazakovDenis/contra/internal/contrad/constants"
 	"github.com/KazakovDenis/contra/internal/contrad/mongodb"
 	"github.com/KazakovDenis/contra/internal/contrad/routes"
 )
@@ -31,8 +31,8 @@ func newServer(cfg *AppConfig) (*http.Server, *context.Context, func()) {
 		Addr:    ":" + cfg.ServerPort,
 		Handler: newMux(),
 		BaseContext: func(l net.Listener) context.Context {
-			ctx = context.WithValue(ctx, contants.KeyServerAddr, l.Addr().String())
-			ctx = context.WithValue(ctx, contants.Database, db)
+			ctx = context.WithValue(ctx, constants.KeyServerAddr, l.Addr().String())
+			ctx = context.WithValue(ctx, constants.Database, db)
 			return ctx
 		},
 	}

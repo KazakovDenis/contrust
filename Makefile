@@ -4,6 +4,9 @@ install:
 fmt:
 	go fmt ./...
 
+lint:
+	go-arch-lint check
+
 run:
 	@docker compose up -d
 	@go run cmd/contrad/contrad.go
