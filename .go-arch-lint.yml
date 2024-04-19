@@ -1,6 +1,10 @@
 version: 3
 workdir: internal
 
+excludeFiles:
+  - "^.*_test\\.go$"
+  - "^.*\/test\/.*$"
+
 allow:
   depOnAnyVendor: false
 
@@ -22,6 +26,7 @@ components:
   request:         { in: contrad/request/ }
   routes:          { in: contrad/routes/ }
   constants:       { in: contrad/constants/ }
+  errors:          { in: contrad/local_errors/ }
 
   # Contra
   contra:          { in: contra/ }
@@ -29,6 +34,7 @@ components:
 commonComponents:
   - common
   - constants
+  - errors
 
 deps:
   common:
@@ -46,8 +52,6 @@ deps:
     mayDependOn:
       - request
       - scenario
-    canUse:
-      - mongo       # todo
   scenario:
     mayDependOn:
       - repo
@@ -57,7 +61,6 @@ deps:
       - database
     canUse:
       - mongo       # todo
-      - mongo-bson  # todo
   database:
     canUse:
       - mongo

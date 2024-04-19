@@ -4,8 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"go.mongodb.org/mongo-driver/mongo"
-
+	"github.com/KazakovDenis/contra/internal/contrad/local_errors"
 	"github.com/KazakovDenis/contra/internal/contrad/request"
 	"github.com/KazakovDenis/contra/internal/contrad/scenario"
 )
@@ -40,7 +39,7 @@ func addProvider(httpCtx *request.HttpContext) {
 		return
 	}
 
-	var writeException mongo.WriteException
+	var writeException local_errors.DatabaseWriteError
 	switch {
 	case errors.As(err, &writeException):
 		httpCtx.MakeResponse(http.StatusConflict, "Already exists")

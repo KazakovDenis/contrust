@@ -1,5 +1,6 @@
 install:
 	go mod download
+	go install github.com/fe3dback/go-arch-lint@latest
 
 fmt:
 	go fmt ./...
