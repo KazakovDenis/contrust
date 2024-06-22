@@ -7,6 +7,10 @@ fmt:
 
 lint:
 	go-arch-lint check
+	go vet ./...
+
+test:
+	go test ./...
 
 run:
 	@docker compose up -d

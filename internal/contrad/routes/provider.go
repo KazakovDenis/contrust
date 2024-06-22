@@ -39,7 +39,7 @@ func addProvider(httpCtx *request.HttpContext) {
 		return
 	}
 
-	var writeException local_errors.DatabaseWriteError
+	var writeException *local_errors.DatabaseWriteError
 	switch {
 	case errors.As(err, &writeException):
 		httpCtx.MakeResponse(http.StatusConflict, "Already exists")
