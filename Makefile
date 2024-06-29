@@ -13,6 +13,7 @@ test:
 	go test ./...
 
 run:
+	@mkdir -p .local/mongodb
 	@docker compose up -d
 	@go run cmd/contrad/contrad.go
 

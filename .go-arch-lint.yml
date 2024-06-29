@@ -9,6 +9,7 @@ allow:
   depOnAnyVendor: false
 
 vendors:
+  cobra:           { in: github.com/spf13/cobra }
   godotenv:        { in: github.com/joho/godotenv }
   logrus:          { in: github.com/sirupsen/logrus }
   mongo:           { in: go.mongodb.org/mongo-driver/mongo }
@@ -17,6 +18,9 @@ vendors:
 
 components:
   common:          { in: common/* }
+
+  # Contra
+  contra:          { in: contra/ }
 
   # Contrad
   contrad:         { in: contrad/ }
@@ -28,9 +32,6 @@ components:
   constants:       { in: contrad/constants/ }
   errors:          { in: contrad/local_errors/ }
 
-  # Contra
-  contra:          { in: contra/ }
-
 commonComponents:
   - common
   - constants
@@ -40,6 +41,11 @@ deps:
   common:
     canUse:
       - logrus
+
+  # Contra
+  contra:
+    canUse:
+      - cobra
 
   # Contrad
   contrad:
