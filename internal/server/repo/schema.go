@@ -3,8 +3,8 @@ package repo
 import (
 	"context"
 
-	"github.com/KazakovDenis/contra/internal/common/log"
-	"github.com/KazakovDenis/contra/internal/contrad/mongodb"
+	"github.com/KazakovDenis/contrust/internal/common/log"
+	"github.com/KazakovDenis/contrust/internal/server/mongodb"
 )
 
 type SchemaRepo struct {
@@ -12,7 +12,7 @@ type SchemaRepo struct {
 }
 
 type SchemaDoc struct {
-	Contract map[string]interface{} `json:"contract"`
+	Contract map[string]interface{} `json:"contrustct"`
 }
 
 func NewSchemaRepo(ctx *context.Context) *SchemaRepo {
@@ -29,6 +29,6 @@ func (repo *SchemaRepo) Add(collection string, document map[string]interface{}) 
 	if err != nil {
 		return "ERROR", err
 	}
-	log.Info("New contract has been added: %s[%s]", collection, objectId)
+	log.Info("New contrustct has been added: %s[%s]", collection, objectId)
 	return objectId, nil
 }

@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/KazakovDenis/contra/internal/common/log"
+	"github.com/KazakovDenis/contrust/internal/common/log"
 )
 
 type HttpContext struct {

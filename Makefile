@@ -12,10 +12,13 @@ lint:
 test:
 	go test ./...
 
-run:
+cli:
+	@go run cmd/cli/contrust.go
+
+server:
 	@mkdir -p .local/mongodb
 	@docker compose up -d
-	@go run cmd/contrad/contrad.go
+	@go run cmd/server/contrustd.go
 
 mongosh:
-	docker compose exec mongo mongosh -u contra -p contra --authenticationDatabase admin contra
+	docker compose exec mongo mongosh -u contrust -p contrust --authenticationDatabase admin contrust

@@ -1,8 +1,8 @@
 package scenario
 
 import (
-	"github.com/KazakovDenis/contra/internal/contrad/repo"
-	"github.com/KazakovDenis/contra/internal/contrad/request"
+	"github.com/KazakovDenis/contrust/internal/server/repo"
+	"github.com/KazakovDenis/contrust/internal/server/request"
 )
 
 type AddProviderScenario struct {

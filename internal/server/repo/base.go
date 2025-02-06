@@ -6,9 +6,9 @@ import (
 
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/KazakovDenis/contra/internal/contrad/constants"
-	"github.com/KazakovDenis/contra/internal/contrad/local_errors"
-	"github.com/KazakovDenis/contra/internal/contrad/mongodb"
+	"github.com/KazakovDenis/contrust/internal/server/constants"
+	"github.com/KazakovDenis/contrust/internal/server/local_errors"
+	"github.com/KazakovDenis/contrust/internal/server/mongodb"
 )
 
 type MongoDbRepo struct {

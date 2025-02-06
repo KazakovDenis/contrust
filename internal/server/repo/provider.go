@@ -3,8 +3,8 @@ package repo
 import (
 	"context"
 
-	"github.com/KazakovDenis/contra/internal/common/log"
-	"github.com/KazakovDenis/contra/internal/contrad/mongodb"
+	"github.com/KazakovDenis/contrust/internal/common/log"
+	"github.com/KazakovDenis/contrust/internal/server/mongodb"
 )
 
 type ProviderRepo struct {

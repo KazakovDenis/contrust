@@ -19,18 +19,18 @@ vendors:
 components:
   common:          { in: common/* }
 
-  # Contra
-  contra:          { in: contra/ }
+  # Contrust
+  cli:             { in: cli/ }
 
-  # Contrad
-  contrad:         { in: contrad/ }
-  database:        { in: contrad/mongodb/ }
-  repo:            { in: contrad/repo/ }
-  scenario:        { in: contrad/scenario/ }
-  request:         { in: contrad/request/ }
-  routes:          { in: contrad/routes/ }
-  constants:       { in: contrad/constants/ }
-  errors:          { in: contrad/local_errors/ }
+  # Contrustd
+  server:          { in: server/ }
+  database:        { in: server/mongodb/ }
+  repo:            { in: server/repo/ }
+  scenario:        { in: server/scenario/ }
+  request:         { in: server/request/ }
+  routes:          { in: server/routes/ }
+  constants:       { in: server/constants/ }
+  errors:          { in: server/local_errors/ }
 
 commonComponents:
   - common
@@ -42,13 +42,13 @@ deps:
     canUse:
       - logrus
 
-  # Contra
-  contra:
+  # Contrust
+  cli:
     canUse:
       - cobra
 
-  # Contrad
-  contrad:
+  # Contrustd
+  server:
     mayDependOn:
       - database
       - routes

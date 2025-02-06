@@ -1,4 +1,4 @@
-# contra
+# contrust
 
 ## Usage
 ### Add new provider
@@ -12,9 +12,9 @@ curl --location 'http://0.0.0.0:8080/provider' \
 
 ## Development
 Project structure:
-- `internal/contrad`: Server code
+- `internal/contrustd`: Server code
   - `routes`: Transport logic (serialization, deserialization, status codes)
   - `scenario`: Business logic
   - `repo`: Data access logic
   - `database`: Database transport operations
-- `internal/contra`: Client code
+- `internal/contrust`: Client code

@@ -1,4 +1,4 @@
-package contrad
+package contrustd
 
 import (
 	"context"
@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/KazakovDenis/contra/internal/common/log"
-	"github.com/KazakovDenis/contra/internal/contrad/constants"
-	"github.com/KazakovDenis/contra/internal/contrad/mongodb"
-	"github.com/KazakovDenis/contra/internal/contrad/routes"
+	"github.com/KazakovDenis/contrust/internal/common/log"
+	"github.com/KazakovDenis/contrust/internal/server/constants"
+	"github.com/KazakovDenis/contrust/internal/server/mongodb"
+	"github.com/KazakovDenis/contrust/internal/server/routes"
 )
 
 func newMux() *http.ServeMux {

@@ -1,6 +1,6 @@
 package scenario
 
-import "github.com/KazakovDenis/contra/internal/contrad/request"
+import "github.com/KazakovDenis/contrust/internal/server/request"
 
 type Executable interface {
 	Execute(httpCtx *request.HttpContext) error

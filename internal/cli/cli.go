@@ -1,4 +1,4 @@
-package contra
+package contrust
 
 import (
 	"fmt"
@@ -8,10 +8,10 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "contra",
-	Short: "Contra is a API contracts verification system client",
+	Use:   "contrust",
+	Short: "Contrust is an API validation system client",
 	Run: func(cmd *cobra.Command, args []string) {
-		println("Contra is working!")
+		println("Contrust is working!")
 	},
 }
 

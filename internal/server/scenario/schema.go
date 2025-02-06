@@ -1,26 +1,26 @@
 package scenario
 
 import (
-	"github.com/KazakovDenis/contra/internal/contrad/repo"
-	"github.com/KazakovDenis/contra/internal/contrad/request"
+	"github.com/KazakovDenis/contrust/internal/server/repo"
+	"github.com/KazakovDenis/contrust/internal/server/request"
 )
 
 type AddSchemaScenario struct {
 	Scenario
-	provider string
-	contract map[string]interface{}
+	provider   string
+	contrustct map[string]interface{}
 }
 
 func (sc *AddSchemaScenario) Execute(httpCtx *request.HttpContext) (string, error) {
 	ctx := httpCtx.Context()
-	result, err := repo.NewSchemaRepo(&ctx).Add(sc.provider, sc.contract)
+	result, err := repo.NewSchemaRepo(&ctx).Add(sc.provider, sc.contrustct)
 	return result, err
 }
 
-func NewAddSchemaScenario(provider string, contract map[string]interface{}) *AddSchemaScenario {
+func NewAddSchemaScenario(provider string, contrustct map[string]interface{}) *AddSchemaScenario {
 	return &AddSchemaScenario{
-		provider: provider,
-		contract: contract,
+		provider:   provider,
+		contrustct: contrustct,
 	}
 }
 

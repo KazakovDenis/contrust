@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/KazakovDenis/contra/internal/contrad/local_errors"
-	"github.com/KazakovDenis/contra/internal/contrad/request"
-	"github.com/KazakovDenis/contra/internal/contrad/scenario"
+	"github.com/KazakovDenis/contrust/internal/server/local_errors"
+	"github.com/KazakovDenis/contrust/internal/server/request"
+	"github.com/KazakovDenis/contrust/internal/server/scenario"
 )
 
 func ProviderRouter(w http.ResponseWriter, r *http.Request) {

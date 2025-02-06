@@ -3,9 +3,9 @@ package routes
 import (
 	"net/http"
 
-	"github.com/KazakovDenis/contra/internal/common/log"
-	"github.com/KazakovDenis/contra/internal/contrad/request"
-	"github.com/KazakovDenis/contra/internal/contrad/scenario"
+	"github.com/KazakovDenis/contrust/internal/common/log"
+	"github.com/KazakovDenis/contrust/internal/server/request"
+	"github.com/KazakovDenis/contrust/internal/server/scenario"
 )
 
 func SchemaRouter(w http.ResponseWriter, r *http.Request) {
@@ -35,7 +35,7 @@ func addSchema(httpCtx *request.HttpContext) {
 
 	_, err = scenario.NewAddSchemaScenario(
 		payload["provider"].(string),
-		payload["contract"].(map[string]interface{}),
+		payload["contrustct"].(map[string]interface{}),
 	).Execute(httpCtx)
 
 	if err != nil {
