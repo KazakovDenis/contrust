@@ -35,7 +35,7 @@ func addSchema(httpCtx *request.HttpContext) {
 
 	_, err = scenario.NewAddSchemaScenario(
 		payload["provider"].(string),
-		payload["contrustct"].(map[string]interface{}),
+		payload["contract"].(map[string]interface{}),
 	).Execute(httpCtx)
 
 	if err != nil {

@@ -40,7 +40,7 @@ func newServer(cfg *AppConfig) (*http.Server, *context.Context, func()) {
 }
 
 func Run() {
-	log.Info("Contrad is running on http://0.0.0.0:%s", Config.ServerPort)
+	log.Info("Contrustd is running on http://0.0.0.0:%s", Config.ServerPort)
 
 	srv, ctx, shutdown := newServer(Config)
 	defer shutdown()

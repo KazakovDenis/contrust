@@ -7,20 +7,20 @@ import (
 
 type AddSchemaScenario struct {
 	Scenario
-	provider   string
-	contrustct map[string]interface{}
+	provider string
+	contract map[string]interface{}
 }
 
 func (sc *AddSchemaScenario) Execute(httpCtx *request.HttpContext) (string, error) {
 	ctx := httpCtx.Context()
-	result, err := repo.NewSchemaRepo(&ctx).Add(sc.provider, sc.contrustct)
+	result, err := repo.NewSchemaRepo(&ctx).Add(sc.provider, sc.contract)
 	return result, err
 }
 
-func NewAddSchemaScenario(provider string, contrustct map[string]interface{}) *AddSchemaScenario {
+func NewAddSchemaScenario(provider string, contract map[string]interface{}) *AddSchemaScenario {
 	return &AddSchemaScenario{
-		provider:   provider,
-		contrustct: contrustct,
+		provider: provider,
+		contract: contract,
 	}
 }
 
