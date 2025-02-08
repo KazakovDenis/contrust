@@ -13,7 +13,7 @@ test:
 	go test ./...
 
 cli:
-	@go run cmd/cli/contrust.go
+	@go build -o ./bin/contrust cmd/cli/contrust.go
 
 server:
 	@mkdir -p .local/mongodb

@@ -27,13 +27,13 @@ func addProvider(httpCtx *request.HttpContext) {
 		return
 	}
 
-	var providerName string
-	if providerName = jsonData["name"].(string); providerName == "" {
+	providerName, exists := jsonData["name"]
+	if !exists || providerName == "" {
 		httpCtx.MakeResponse(http.StatusBadRequest, "Payload must contain \"name\"", "text/plain")
 		return
 	}
 
-	result, err := scenario.NewAddProviderScenario(providerName).Execute(httpCtx)
+	result, err := scenario.NewAddProviderScenario(providerName.(string)).Execute(httpCtx)
 	if err == nil {
 		httpCtx.MakeResponse(http.StatusOK, result, "text/plain")
 		return

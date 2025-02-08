@@ -10,9 +10,6 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "contrust",
 	Short: "Contrust is an API validation system client",
-	Run: func(cmd *cobra.Command, args []string) {
-		println("Contrust is working!")
-	},
 }
 
 func Run() {

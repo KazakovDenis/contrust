@@ -37,6 +37,6 @@ func (repo *SchemaRepo) Get(provider string, transport *string) ([]Document, err
 	if err != nil {
 		return nil, err
 	}
-	log.Debug("Contracts found for %s: %s", provider, transport)
+	log.Debug("Contracts found for %s: %s", provider, *transport)
 	return documents, nil
 }

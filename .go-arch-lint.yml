@@ -10,11 +10,13 @@ allow:
 
 vendors:
   cobra:           { in: github.com/spf13/cobra }
+  color:           { in: github.com/fatih/color }
   godotenv:        { in: github.com/joho/godotenv }
   logrus:          { in: github.com/sirupsen/logrus }
   mongo:           { in: go.mongodb.org/mongo-driver/mongo }
   mongo-bson:      { in: go.mongodb.org/mongo-driver/bson/primitive }
   mongo-options:   { in: go.mongodb.org/mongo-driver/mongo/options }
+  yaml:            { in: gopkg.in/yaml.v3 }
 
 components:
   common:          { in: common/* }
@@ -46,6 +48,8 @@ deps:
   cli:
     canUse:
       - cobra
+      - color
+      - yaml
 
   # Contrustd
   server:
