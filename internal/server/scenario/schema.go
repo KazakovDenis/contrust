@@ -26,10 +26,14 @@ func NewAddSchemaScenario(provider string, contract map[string]interface{}) *Add
 
 type GetSchemaScenario struct {
 	Scenario
+	provider  string
+	transport string
 }
 
-func (sc *GetSchemaScenario) Execute(httpCtx *request.HttpContext) (string, error) {
-	return "", nil
+func (sc *GetSchemaScenario) Execute(httpCtx *request.HttpContext) ([]repo.Document, error) {
+	ctx := httpCtx.Context()
+	result, err := repo.NewSchemaRepo(&ctx).Get(sc.provider, &sc.transport)
+	return result, err
 }
 
 func NewGetSchemaScenario() *GetSchemaScenario {

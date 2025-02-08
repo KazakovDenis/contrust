@@ -8,5 +8,5 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	httpCtx := request.NewHttpContext(&w, r)
-	httpCtx.MakeResponse(http.StatusOK, "<h1>Contrustd - the centralized contracts storage</h1>")
+	httpCtx.MakeResponse(http.StatusOK, "<h1>Contrustd - the centralized contracts storage</h1>", "text/html")
 }

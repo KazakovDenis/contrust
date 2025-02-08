@@ -24,7 +24,7 @@ func SchemaRouter(w http.ResponseWriter, r *http.Request) {
 func addSchema(httpCtx *request.HttpContext) {
 	payload, err := httpCtx.Json()
 	if err != nil {
-		httpCtx.MakeResponse(http.StatusBadRequest, "Invalid data")
+		httpCtx.MakeResponse(http.StatusBadRequest, "Invalid data", "text/plain")
 		return
 	}
 
@@ -40,6 +40,7 @@ func addSchema(httpCtx *request.HttpContext) {
 
 	if err != nil {
 		log.Error("%s", err)
+
 	}
 }
 
@@ -48,8 +49,22 @@ func addSchemaValidate(payload map[string]interface{}) error {
 }
 
 func getSchema(httpCtx *request.HttpContext) {
-	_, err := scenario.NewGetSchemaScenario().Execute(httpCtx)
-	if err != nil {
-		log.Error("%s", err)
+	params := httpCtx.Params()
+	provider := params.Get("provider")
+	if provider == "" {
+		httpCtx.MakeResponse(http.StatusBadRequest, "Argument required: provider", "text/plain")
+		return
 	}
+
+	data, err := scenario.NewGetSchemaScenario().Execute(httpCtx)
+	if err != nil {
+		httpCtx.MakeResponse(http.StatusInternalServerError, "Internal error", "text/plain")
+		return
+	}
+
+	payload := map[string]interface{}{
+		"result": data,
+	}
+
+	httpCtx.MakeJsonResponse(http.StatusOK, payload)
 }

@@ -23,27 +23,27 @@ func ProviderRouter(w http.ResponseWriter, r *http.Request) {
 func addProvider(httpCtx *request.HttpContext) {
 	jsonData, err := httpCtx.Json()
 	if err != nil {
-		httpCtx.MakeResponse(http.StatusBadRequest, "Invalid data")
+		httpCtx.MakeResponse(http.StatusBadRequest, "Invalid data", "text/plain")
 		return
 	}
 
 	var providerName string
 	if providerName = jsonData["name"].(string); providerName == "" {
-		httpCtx.MakeResponse(http.StatusBadRequest, "Payload must contain \"name\"")
+		httpCtx.MakeResponse(http.StatusBadRequest, "Payload must contain \"name\"", "text/plain")
 		return
 	}
 
 	result, err := scenario.NewAddProviderScenario(providerName).Execute(httpCtx)
 	if err == nil {
-		httpCtx.MakeResponse(http.StatusOK, result)
+		httpCtx.MakeResponse(http.StatusOK, result, "text/plain")
 		return
 	}
 
 	var writeException *local_errors.DatabaseWriteError
 	switch {
 	case errors.As(err, &writeException):
-		httpCtx.MakeResponse(http.StatusConflict, "Already exists")
+		httpCtx.MakeResponse(http.StatusConflict, "Already exists", "text/plain")
 	default:
-		httpCtx.MakeResponse(http.StatusInternalServerError, "")
+		httpCtx.MakeResponse(http.StatusInternalServerError, "", "text/plain")
 	}
 }

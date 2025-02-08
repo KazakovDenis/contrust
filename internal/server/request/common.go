@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"net/url"
 
 	"github.com/KazakovDenis/contrust/internal/common/log"
 )
@@ -34,11 +35,16 @@ func (httpCtx *HttpContext) Json() (map[string]interface{}, error) {
 	return jsonData, nil
 }
 
-func (httpCtx *HttpContext) MakeResponse(status int, response string) {
+func (httpCtx *HttpContext) Params() url.Values {
+	return httpCtx.request.URL.Query()
+}
+
+func (httpCtx *HttpContext) MakeResponse(status int, response, contentType string) {
 	w := httpCtx.writer
 	(*w).WriteHeader(status)
 
 	if len(response) > 0 {
+		(*w).Header().Set("Content-Type", contentType)
 		_, err := io.WriteString(*w, response)
 		if err != nil {
 			log.Error("%s", err)
@@ -46,6 +52,25 @@ func (httpCtx *HttpContext) MakeResponse(status int, response string) {
 	}
 }
 
+func (httpCtx *HttpContext) MakeJsonResponse(status int, response interface{}) {
+	w := httpCtx.writer
+	(*w).WriteHeader(status)
+
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		log.Error("%s", err)
+		http.Error(*w, "Internal error", http.StatusInternalServerError)
+		return
+	}
+
+	(*w).Header().Set("Content-Type", "application/json")
+
+	_, err = io.WriteString(*w, string(jsonResponse))
+	if err != nil {
+		log.Error("%s", err)
+	}
+}
+
 func (httpCtx *HttpContext) NotAllowed() {
-	httpCtx.MakeResponse(http.StatusMethodNotAllowed, "Not allowed")
+	httpCtx.MakeResponse(http.StatusMethodNotAllowed, "Not allowed", "text/plain")
 }
